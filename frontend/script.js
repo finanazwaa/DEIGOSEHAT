@@ -101,9 +101,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       const response = await fetch("http://127.0.0.1:8000/chatbot", {
-        method: "POST", // Ensure this is POST
+        method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ user_input: userMessage }), // Ensure the body is sent
+        body: JSON.stringify({ user_input: userMessage }),
       });
 
       if (!response.ok) throw new Error("Failed to fetch chatbot response");

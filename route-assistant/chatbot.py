@@ -103,7 +103,6 @@ def find_shortest_path(graph, origin, destination):
     except nx.NetworkXNoPath:
         return {"route": [], "distance": float("inf")}
 
-# Endpoint for chatbot
 @app.post("/chatbot")
 def chatbot_endpoint(request: ChatbotRequest):
     user_input = request.user_input.lower()
