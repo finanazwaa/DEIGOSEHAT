@@ -4,19 +4,19 @@ document.addEventListener("DOMContentLoaded", () => {
   const destinationSelect = document.getElementById("destination");
   const findRouteBtn = document.getElementById("find-route-btn");
 
-  const chatOutput = document.getElementById("chat-output");
+  const chatOutput = document.getElementById("chatbox"); // <== ID-nya di HTML kamu chatbox, bukan chat-output
   const userInput = document.getElementById("user-input");
   const sendBtn = document.getElementById("send-btn");
 
   const locationImages = {
     "Tugu Jogja": "assets/images/tugu.jpg",
-    "Malioboro": "assets/images/malioboro.jpg",
-    "Keraton": "assets/images/keraton.jpg",
+    Malioboro: "assets/images/malioboro.jpg",
+    Keraton: "assets/images/keraton.jpg",
     "Stasiun Tugu": "assets/images/tugu.jpg",
     "Alun-Alun Kidul": "assets/images/keraton.jpg",
-    "UGM": "assets/images/tugu.jpg",
-    "Monjali": "assets/images/tugu.jpg",
-    "Bandara": "assets/images/tugu.jpg",
+    UGM: "assets/images/tugu.jpg",
+    Monjali: "assets/images/tugu.jpg",
+    Bandara: "assets/images/tugu.jpg",
   };
 
   // =========================
@@ -27,12 +27,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const destination = destinationSelect.value;
 
     if (!origin || !destination) {
-      routeOutput.innerHTML = "<p>Please select both origin and destination.</p>";
+      routeOutput.innerHTML =
+        "<p>Please select both origin and destination.</p>";
       return;
     }
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/route", {
+      const response = await fetch("http://127.0.0.1:5000/api/route", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ start: origin, end: destination }),
@@ -69,44 +70,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     addMessage("You", userMessage);
 
-    // =========================
-    // CHATBOT INTEGRATION
-    // =========================
-    sendBtn.addEventListener("click", async () => {
-      const userMessage = userInput.value.trim();
-      if (!userMessage) {
-        addMessage("You", "Please enter a message.");
-        return;
-      }
-
-      addMessage("You", userMessage);
-
-      try {
-        const response = await fetch("http://127.0.0.1:8000/chatbot", {
-          method: "POST", // Ensure this is POST
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ user_input: userMessage }),
-        });
-
-        if (!response.ok) throw new Error("Failed to fetch chatbot response");
-
-        const data = await response.json();
-        addMessage("Dei-GO", data.response || "Maaf, saya tidak mengerti.");
-      } catch (error) {
-        addMessage("Dei-GO", `Error: ${error.message}`);
-      }
-
-      userInput.value = "";
-    });
-
     try {
-      const response = await fetch("http://127.0.0.1:8000/chatbot", {
+      const response = await fetch("http://127.0.0.1:5000/api/chatbot", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ user_input: userMessage }),
       });
 
-      if (!response.ok) throw new Error("Failed to fetch chatbot response");
+      if (!response.ok) throw new Error("Failed to fetch chatbot response.");
 
       const data = await response.json();
       addMessage("Dei-GO", data.response || "Maaf, saya tidak mengerti.");
@@ -131,7 +102,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // =========================
   // ROUTE GRAPH VISUALIZATION
   // =========================
-  const graphCanvas = document.getElementById("graph-canvas");
+  const graphCanvas = document.getElementById("graphCanvas");
   const ctx = graphCanvas ? graphCanvas.getContext("2d") : null;
 
   function drawGraph() {
@@ -140,8 +111,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const nodes = {
       "Tugu Jogja": { x: 100, y: 100 },
-      "Malioboro": { x: 300, y: 100 },
-      "Keraton": { x: 500, y: 300 },
+      Malioboro: { x: 300, y: 100 },
+      Keraton: { x: 500, y: 300 },
     };
 
     const edges = [

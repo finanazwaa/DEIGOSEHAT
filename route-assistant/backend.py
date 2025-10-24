@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-from chatbot import chatbot_response  # Import the chatbot logic
+from backend.chatbot import chatbot_response  # Import the chatbot logic
 
 
 

@@ -1,5 +1,5 @@
 import unittest
-from chatbot import get_response  # Replace with the actual function name
+from backend.chatbot import get_response  # Replace with the actual function name
 
 class TestChatbot(unittest.TestCase):
     def test_valid_input(self):
